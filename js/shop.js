@@ -89,7 +89,7 @@ function buy(id) {
 // Exercise 2
 function cleanCart() {
 
-    cartList.length = 0
+    cart = []
     /* document.getElementById("count_product").innerHTML = Number(cartList.length) */
 
 }
@@ -151,6 +151,7 @@ function applyPromotionsCart() {
         } else if (cart[i].name === 'cooking oil' && cart[i].quantity < cart[i].offer.number) {
             cart[i].subtotal = cart[i].quantity * cart[i].price
             cart[i].discount = 0
+            cart[i].subtotalWithDiscount = 0
         } else if (cart[i].name === 'Instant cupcake mixture' && cart[i].quantity >= cart[i].offer.number) {
             cart[i].subtotal = cart[i].quantity * cart[i].price
             cart[i].subtotalWithDiscount = cart[i].subtotal - (cart[i].offer.percent / 100 * cart[i].subtotal)
@@ -158,6 +159,7 @@ function applyPromotionsCart() {
         } else if (cart[i].name === 'Instant cupcake mixture' && cart[i].quantity < cart[i].offer.number) {
             cart[i].subtotal = cart[i].quantity * cart[i].price
             cart[i].discount = 0
+            cart[i].subtotalWithDiscount = 0
         } else {
             cart[i].subtotal = cart[i].quantity * cart[i].price
             cart[i].discount = 0
@@ -233,7 +235,7 @@ function addToCart(id) {
     for(i = 0; i < products.length; i++) {
         if (products[i].id === id && !cart.includes(cart[i])) {
             cart.push(products[i])
-            cart[i].quantity = 1
+            cart[i].quantity = 1;
         } else if (products[i].id === id && cart.includes(cart[i])) {
             cart[i].quantity ++
         }
@@ -245,10 +247,10 @@ function addToCart(id) {
         /* else if (products[i].id === id && cart.includes(cart[i])) {
             cart[i].quantity ++
         } */
-        
-        
     }
-        
+    applyPromotionsCart()
+
+
     /* cart.forEach((element) => {
         if(!cart.includes(element)) {
             cart.push(element)
@@ -271,14 +273,23 @@ function removeFromCart(id) {
     // 2. Add found product to the cartList array
 
     for(i = 0; i < cart.length; i++) {
+        
         if (cart[i].id === id && cart.includes(cart[i])) {
             cart[i].quantity --
-        } /* else if (products[i].id === id && cart.includes(cart[i])) {
-            cart[i].quantity ++
+        } 
+
+        /* if (cart[i].id === id && cart[i].quantity === 0) {
+            cart.splice(i, 1)
+        } */
+
+        /* if (cart === 0) {
+            cleanCart()
         } */
         
     }
-
+    
+    applyPromotionsCart()
+    
 
 }
 
